@@ -1,0 +1,18 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+from PIL import Image
+
+#loading the image from file path
+def load_image(file_path):
+    image = cv2.imread(file_path)
+    image = cv2.cvtColor(image, cv2.colorBGR2RGB) # Convert BGR (OpenCV default) to RGB
+    return image
+
+def analyze_image(image):
+    # Gather and store RGB values, location, and intensity of each pixel
+    height, width, channels = image.shape
+    pixel_data = []
+
+    for y in range(height):
+        
