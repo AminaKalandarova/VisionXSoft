@@ -6,7 +6,7 @@ from PIL import Image
 #loading the image from file path
 def load_image(file_path):
     image = cv2.imread(file_path)
-    image = cv2.cvtColor(image, cv2.colorBGR2RGB) # Convert BGR (OpenCV default) to RGB
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) 
     return image
 
 def analyze_image(image):
@@ -15,4 +15,45 @@ def analyze_image(image):
     pixel_data = []
 
     for y in range(height):
-        
+        for x in range(width):
+            R, G, B = image[y, x]
+            intensity = (R + G + B)/3  # Calculate intensity as the average of R, G, and B
+            pixel_data.append({
+                "x": x,
+                "y": y,
+                "R": R,
+                "G": G,
+                "B": B,
+                "intensity": intensity
+            })
+
+    return pixel_data
+
+def display_image(image):
+    plt.imshow(image)
+    plt.axis('off')
+    plt.show()
+
+def main():
+    # Input: Get the file path of the image from the user
+    file_path = input("Enter the file path of the image:")
+
+    # Load the image
+    image = load_image(file_path)
+
+    if image is None:
+        print("Error: unable to load image.")
+        return
+    
+    display_image(image)
+
+    pixel_data = analyze_image(image)
+
+    #Output the result
+    print(f"Total pixels: {len(pixel_data)}")
+    # Print the first 5 pixels' data as a sample
+    for pixel in pixel_data[:5]:
+        print(pixel)
+
+if __name__ == "__main__":
+    main()
